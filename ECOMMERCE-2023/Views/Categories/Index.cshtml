@@ -1,0 +1,77 @@
+﻿@model IEnumerable<ECOMMERCE_2023.Models.CATEGORIES>
+
+@{
+    ViewBag.Title = "Index";
+}
+<link href="~/src/css/Button.css" rel="stylesheet" />
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Category_name)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category_name)
+            </td>
+            <td>
+                <div class="box-1">
+                    <div class="btn btn-one">
+                        <span>Delete</span>
+                    </div>
+                </div>
+                @*<a href="/Categories/Edit/@item.Category_id" class="btn btn-danger">Edit</a>
+                @Html.ActionLink("Details", "Details", new { id = item.Category_id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Category_id })*@
+            </td>
+        </tr>
+    }
+</table>
+<style>
+    .img-card{
+        width:150%;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card" style="width: 18rem;">
+                <img class="img-card" src="~/image/photo.jpg" />
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card" style="width: 18rem;">
+                <img  class="img-card" src="~/image/photo.jpg" />
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card" style="width: 18rem;">
+                <img  class="img-card" src="~/image/photo.jpg" />
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

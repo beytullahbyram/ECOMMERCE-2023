@@ -1,0 +1,72 @@
+﻿@model IEnumerable<ECOMMERCE_2023.Models.PRODUCT>
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Categories</h2>
+<p>
+    <a href="/Product/Create" class="btn btn-primary">Create new product</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Product_name)
+        </th>
+        <th>
+            Image
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Product_description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Product_price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CATEGORIES.Category_name)
+        </th>
+    </tr>
+    @foreach (var item in Model)
+     {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product_name)
+            </td>
+            <td >
+                <img  class="product-img" src="~/image/@(item.Product_id).jpg" width="50px" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product_description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product_price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CATEGORIES.Category_name)
+            </td>
+            <td>
+                <a href="/Categories/Edit/@item.Category_id" class="btn btn-default">Edit</a>
+                <a href="/Categories/Details/@item.Category_id" class="btn btn-success">Details</a>
+                <a href="/Categories/Delete/@item.Category_id" class="btn btn-warning">Delete</a>
+                <a href="/ProductCart/Add/@item.Product_id" class="btn btn-warning">Add to basket</a>
+            </td>
+        </tr>
+     }
+</table>
+<style>
+    .product-img {
+        position: relative;
+        -webkit-transform: scale(1);
+        -ms-transform: scale(7);
+        -moz-transform: scale(7);
+        transition: all .3s ease-in;
+        -moz-transition: all .3s ease-in;
+        -webkit-transition: all .3s ease-in;
+        -ms-transition: all .3s ease-in;
+    }
+    .product-img:hover {
+        z-index: 2;
+        -webkit-transform: scale(10);
+        -ms-transform: scale(10);
+        -moz-transform: scale(10);
+        transform: scale(10);
+    }
+</style>

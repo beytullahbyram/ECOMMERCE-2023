@@ -1,0 +1,50 @@
+﻿@model ECOMMERCE_2023.Models.PRODUCT
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PRODUCT</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Product_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Product_description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product_description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Product_price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product_price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CATEGORIES.Category_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CATEGORIES.Category_name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Product_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
