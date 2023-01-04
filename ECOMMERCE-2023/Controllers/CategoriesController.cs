@@ -102,13 +102,12 @@ namespace ECOMMERCE_2023.Controllers
             return View(cATEGORIES);
         }
 
-        // POST: Categories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            CATEGORIES cATEGORIES = db.CATEGORIES.Find(id);
-            db.CATEGORIES.Remove(cATEGORIES);
+            CATEGORIES categories = db.CATEGORIES.Find(id);
+            db.CATEGORIES.Remove(categories);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

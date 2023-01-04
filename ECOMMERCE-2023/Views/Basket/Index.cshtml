@@ -1,0 +1,83 @@
+﻿@model IEnumerable<ECOMMERCE_2023.Models.ORDER_CART>
+
+@{
+    ViewBag.Title = "Ürünler";
+}
+
+<div class="jumbotron">
+    <h1>ORDER CART</h1>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PRODUCT.Product_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Custom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Total_amount)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PRODUCT.Product_name)
+            </td>
+            <td>
+                <form action="/Basket/BasketUpdate">
+                    <input type="hidden" value="@item.Order_cart_id" name="id" id="id" />
+                    <input type="number" name="adet" id="adet" value="@item.Custom" />
+                    <input type="submit" id="gonder" value="Güncelle" />
+                </form>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total_amount)
+            </td>
+            <td>
+                @*Basketcontroller delete action parametresini id olarak gönderiyoruz. iki parametre aynı olmak zorunda*@ 
+                @Html.ActionLink("sil", "BasketDelete", new { id = item.Order_cart_id }, new { @class = "btn btn-danger btn-sm" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

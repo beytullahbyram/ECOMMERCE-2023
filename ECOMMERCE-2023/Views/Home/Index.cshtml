@@ -1,31 +1,63 @@
-﻿@{
+﻿@using ECOMMERCE_2023.Models
+@{
     ViewBag.Title = "Home Page";
 }
 
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <h1>ASP.NET MVC ETicaret Projesi</h1>
+</div>
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-3">
+            <h2>Kategoriler</h2>
+            <ul style="list-style:none;">
+                @foreach (CATEGORIES item in (List<CATEGORIES>)ViewBag.Categories)
+                {
+                    <li>
+                        @Html.ActionLink(item.Category_name, "Categories", new { id = item.Category_id })
+                    </li>
+                }
+            </ul>
+        </div>
+
+    <div class="col-md-9">
+                <h2>Product</h2>
+                <div class="row">
+                    @foreach (PRODUCT item in (List<PRODUCT>)ViewBag.Products)
+                    {
+                    <div class="col-md-3 card-deck" style=" width:220px; height:190px">
+                        <div class="card">
+                            <h5>@item.Product_name</h5>
+                            <img src="/image/@(item.Product_id+".jpg")" style="width:50%;" />
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">
+                                    <a href="/Home/Product/@item.Product_id" class="btn btn-default">
+                                        Ürün Detay &raquo;
+                                    </a>
+                                    <span style="float:right;color:red;font-size:15px;font-weight:bold">@item.Product_price TL</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+        </div>
+    </div>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

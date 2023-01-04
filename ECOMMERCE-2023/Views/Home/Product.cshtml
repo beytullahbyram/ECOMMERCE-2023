@@ -1,0 +1,61 @@
+﻿@using ECOMMERCE_2023.Models;
+@model PRODUCT
+@{
+    ViewBag.Title = "Product";
+}
+
+<div class="jumbotron">
+    <h1>ASP.NET MVC ETicaret Projesi</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <h2>Kategoriler</h2>
+        <ul style="list-style:none;">
+            @foreach (CATEGORIES item in (List<CATEGORIES>)ViewBag.Categories)
+            {
+                <li>
+                    @Html.ActionLink(item.Category_name, "Categories", new { id = item.Category_id })
+                </li>
+            }
+        </ul>
+    </div>
+
+    <div class="col-md-9">
+
+        <h5>@Model.Product_name</h5>
+
+        <div class="row">
+
+            <div class="col-md-6">
+                <img src="/image/@(Model.Product_id+".jpg")" style="width:50%;" />
+            </div>
+
+            <div class="col-md-6">
+
+                <b>Ürün Fiyatı: </b>  <span style="color:red;font-size:15px;font-weight:bold;">@Model.Product_price TL</span>
+                <br /><br />
+                @using (Html.BeginForm("AddToBaset", "Basket"))
+                {
+                    @Html.HiddenFor(x => x.Product_id)
+                    <input type="number" value="1" name="custom" id="adet" />
+                    <input type="submit" value="Sepete Ekle" id="gonder" />
+                }
+                <input type="number" value="0" id="result" />
+            </div>
+
+        </div>
+
+        <h2>@Model.Product_description</h2>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#adet").click(function () {
+            var result = $('#result').val();
+            result += @Model.Product_price;
+            alert(result)
+        });
+    });
+</script>

@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<ECOMMERCE_2023.Models.PRODUCT>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Product";
 }
 <h2>Categories</h2>
 <p>
@@ -31,7 +31,7 @@
                 @Html.DisplayFor(modelItem => item.Product_name)
             </td>
             <td >
-                <img  class="product-img" src="~/image/@(item.Product_id).jpg" width="50px" />
+                <img  class="product-img" src="/image/@(item.Product_id).jpg" width="50px" />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Product_description)
@@ -43,10 +43,9 @@
                 @Html.DisplayFor(modelItem => item.CATEGORIES.Category_name)
             </td>
             <td>
-                <a href="/Categories/Edit/@item.Category_id" class="btn btn-default">Edit</a>
-                <a href="/Categories/Details/@item.Category_id" class="btn btn-success">Details</a>
-                <a href="/Categories/Delete/@item.Category_id" class="btn btn-warning">Delete</a>
-                <a href="/ProductCart/Add/@item.Product_id" class="btn btn-warning">Add to basket</a>
+                <a href="/Product/Edit/@item.Product_id" class="btn btn-default">Edit</a>
+                <a href="/Product/Details/@item.Product_id" class="btn btn-success">Details</a>
+                <a href="/Product/Delete/@item.Product_id" class="btn btn-warning">Delete</a>
             </td>
         </tr>
      }

@@ -1,0 +1,55 @@
+﻿@using ECOMMERCE_2023.Models
+@model List<PRODUCT>
+@{
+    CATEGORIES category = (CATEGORIES)ViewBag.category;
+    ViewBag.Title = category.Category_name;
+}
+
+<h2>Product</h2>
+
+<div class="jumbotron">
+    <h1>ASP.NET MVC ETicaret Projesi</h1>
+</div>
+
+
+<div class="row">
+    <div class="col-md-3">
+        <h2>Kategoriler</h2>
+        <ul style="list-style:none;">
+            @foreach (CATEGORIES item in (List<CATEGORIES>)ViewBag.Categories)
+            {
+                <li>
+                    @Html.ActionLink(item.Category_name, "Kategori", new { id = item.Category_id })
+                </li>
+            }
+        </ul>
+    </div>
+
+    <div class="col-md-9">
+        <h2>Ürünler</h2>
+        <div class="row">
+            @foreach (PRODUCT item in Model)
+            {
+                <div class="col-md-4" style="border:2px solid">
+                    <h5>@item.Product_name</h5>
+                    <img src="/Resim/@(item.Product_id+".jpg")" style="width:50%;" />
+
+                    <p>
+                        <a href="/Home/Urun/@item.Product_id" class="btn btn-default">
+                            Ürün Detay &raquo;
+                        </a>
+                        <span style="float:right;color:red;font-size:15px;font-weight:bold">@item.Product_price TL</span>
+                    </p>
+
+                </div>
+                <div class="col-md-2">
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>
+
