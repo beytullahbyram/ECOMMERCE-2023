@@ -175,6 +175,7 @@
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -195,6 +196,7 @@
     <Compile Include="Models\CATEGORIES.cs">
       <DependentUpon>ECommerceModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CategoriesToList.cs" />
     <Compile Include="Models\C__MigrationHistory.cs">
       <DependentUpon>ECommerceModel.tt</DependentUpon>
     </Compile>
@@ -321,10 +323,13 @@
     <Content Include="Views\Home\Category.cshtml" />
     <Content Include="Views\Home\Product.cshtml" />
     <Content Include="Views\Basket\Index.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\Order\OrderComplete.cshtml" />
+    <Content Include="Views\Order\Complete.cshtml" />
+    <Content Include="Views\Order\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="NewFolder1\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

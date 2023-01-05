@@ -63,7 +63,9 @@ namespace ECOMMERCE_2023.Controllers
             return View(pRODUCT);
         }
         #endregion
-        // GET: Product/Edit/5
+
+
+
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -80,14 +82,20 @@ namespace ECOMMERCE_2023.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Product_id,Product_name,Category_id,Product_description,Product_price")] PRODUCT pRODUCT)
+        public ActionResult Edit(PRODUCT pRODUCT,HttpPostedFileBase product_image)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(pRODUCT).State = EntityState.Modified;
                 db.SaveChanges();
+                if(product_image != null)
+                {
+                    string path=Path.Combine(Server.MapPath("~/image/"),pRODUCT.Product_id+".jpg");
+                    product_image.SaveAs(path); 
+                }
                 return RedirectToAction("Index");
             }
+            //kategoriler tablosunda category_id ile parametre ile gelen category_id eşleştirme işlemi yapılır, arka planda category id tutulur görünürde category_name gözükür,
             ViewBag.Category_id = new SelectList(db.CATEGORIES, "Category_id", "Category_name", pRODUCT.Category_id);
             return View(pRODUCT);
         }

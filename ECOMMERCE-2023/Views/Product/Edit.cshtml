@@ -1,5 +1,5 @@
 ﻿@model ECOMMERCE_2023.Models.PRODUCT
-
+@using System.Web.Mvc
 @{
     ViewBag.Title = "Edit";
 }
@@ -52,7 +52,7 @@
     <div class="form-group">
         <label class="col-md-2">Product image</label>
         <div class="col-md-10">
-            <input type="file" class="form-control" name="name" value=""  />
+            <input type="file" class="form-control" name="product_image" id="product_image" value=""  />
         </div>
     </div>
 
@@ -71,3 +71,4 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+

@@ -40,12 +40,43 @@
             </td>
             <td>
                 @*Basketcontroller delete action parametresini id olarak gönderiyoruz. iki parametre aynı olmak zorunda*@ 
-                @Html.ActionLink("sil", "BasketDelete", new { id = item.Order_cart_id }, new { @class = "btn btn-danger btn-sm" })
+                @Html.ActionLink("Delete", "BasketDelete", new { id = item.Order_cart_id }, new { @class = "btn btn-danger btn-sm" })
             </td>
         </tr>
     }
+    <tr>
+            <td>
+                <b>Toplam</b>
+            </td>
+            <td>
+                <b>
+                    @Model.Sum(x=>x.Custom)
+                </b>
+            </td>
+            <td colspan="2" >
+                <b>
+                    @Model.Sum(x=>x.Total_amount) TL
+                </b>
+            </td>
+    </tr>
+    <tr>
 
+        <td>
+            <a href="/Home/Index" class="btn btn-info">Keep shoping</a>
+        </td>
+        <td style="text-align:right" colspan="3">
+            <a href="/Order/OrderComplete" class="btn btn-success">Order Complete</a>
+        </td>
+    </tr>
 </table>
+
+<script>
+    
+</script>
+
+
+
+
 
 
 

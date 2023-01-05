@@ -11,7 +11,8 @@ namespace ECOMMERCE_2023.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+
     public partial class ORDER
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -26,6 +27,7 @@ namespace ECOMMERCE_2023.Models
         public string Surname { get; set; }
         public string Address { get; set; }
         public string Telephone { get; set; }
+        [DisplayName("Identification")]
         public string Identification_number { get; set; }
         public Nullable<System.DateTime> Date { get; set; }
     
