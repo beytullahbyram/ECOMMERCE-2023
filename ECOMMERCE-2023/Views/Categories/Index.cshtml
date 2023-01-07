@@ -14,7 +14,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Category_name)
         </th>
-        <th></th>
+        <th  colspan="3">
+            Options
+        </th>
     </tr>
 
     @foreach (var item in Model)
@@ -22,56 +24,33 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Category_name)
+                <label></label>
             </td>
             <td>
-                <div class="box-1">
-                    <div class="btn btn-one">
-                        <span>Delete</span>
+
+                <div class="container" style="justify-content:flex-end" >
+                    <div class="box-1" style="width: 80px; float: left;">
+                        <div class="btn btn-one-delete" >
+                            <a href="/Categories/Delete/@item.Category_id">Delete</a>
+                        </div>
+                    </div>
+
+                    <div class="box-2" style="width: 80px; float: left">
+                        <div class="btn btn-one-delete">
+                            <a href="/Categories/Details/@item.Category_id">Details</a>
+                        </div>
+                    </div>
+                    <div class="box-3" style="width: 80px; float: left">
+                        <div class="btn btn-one-edit">
+                            <a href="/Categories/Edit/@item.Category_id" class="button">Edit</a>
+                        </div>
                     </div>
                 </div>
+
                 @*<a href="/Categories/Edit/@item.Category_id" class="btn btn-danger">Edit</a>
-                @Html.ActionLink("Details", "Details", new { id = item.Category_id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Category_id })*@
+            @Html.ActionLink("Details", "Details", new { id = item.Category_id }) |
+            @Html.ActionLink("Deleteaa", "Delete", new { id = item.Category_id })*@
             </td>
         </tr>
     }
 </table>
-<style>
-    .img-card{
-        width:150%;
-    }
-</style>
-<div class="container">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card" style="width: 18rem;">
-                <img class="img-card" src="~/image/photo.jpg" />
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card" style="width: 18rem;">
-                <img  class="img-card" src="~/image/photo.jpg" />
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card" style="width: 18rem;">
-                <img  class="img-card" src="~/image/photo.jpg" />
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>

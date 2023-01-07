@@ -4,23 +4,34 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 using ECOMMERCE_2023.Models;
+using Newtonsoft.Json;
 
 namespace ECOMMERCE_2023.Controllers
 {
     public class CategoriesController : Controller
     {
         private ECommerceEntities db = new ECommerceEntities();
-
-        // GET: Categories
+        HttpClient httpClient = new HttpClient();//GET POST PUT DELETE işlemlerini yapmamızı sağlar
         public ActionResult Index()
         {
-            return View(db.CATEGORIES.ToList());
+            List<CATEGORIES> categories = new List<CATEGORIES>();
+            httpClient.BaseAddress = new Uri("https://localhost:44317/api/");//istek göndereceğimiz api adresi
+            var response=httpClient.GetAsync("Category");//apinin gideği controller veya adres
+            response.Wait();//cevap gelene kadar bekleniyor
+            var result=response.Result; //clienttan gelen sonucu değişkene attık
+            if(result.IsSuccessStatusCode)
+            {
+                var readstringdata= result.Content.ReadAsStringAsync();//json sonucu string olarak okuyoruz
+                readstringdata.Wait();
+                categories=JsonConvert.DeserializeObject<List<CATEGORIES>>(readstringdata.Result);//json formatindaki verileri okumak için deserilaze işlemi yaptık yani parçalayıp verilere ulaşmış olduk
+            }
+            return View(categories);
         }
 
-        // GET: Categories/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -35,30 +46,31 @@ namespace ECOMMERCE_2023.Controllers
             return View(cATEGORIES);
         }
 
-        // GET: Categories/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Categories/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //View üzerinden post işlemi ile gelen modelden gelmesini istediğimiz veya istemediğimiz propertyleri bind ile belirliyoruz
+        //Exlude => view üzerinden gelen modelden istemediğimiz propertylerin o view üzerinden gelmesini istemediğimiz zaman kullanırız
+        //Include => view üzerinden gelen kullanmak istediğimiz propertyleri belirtiriz
         public ActionResult Create([Bind(Include = "Category_id,Category_name")] CATEGORIES cATEGORIES)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid)//isvalid ile modelin veritabanına doğru bir geçerli olup olmadığını kontrol eder
             {
-                db.CATEGORIES.Add(cATEGORIES);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                httpClient.BaseAddress=new Uri("https://localhost:44317/api/");
+                //apiye json olarak bir post isteği göndeririz ve gelen cevabı değişkene alırız
+                var response = HttpClientExtensions.PostAsJsonAsync<CATEGORIES>(httpClient,"Category",cATEGORIES);
+                response.Wait();
+                var result = response.Result;
+                if(result.IsSuccessStatusCode)
+                    return RedirectToAction("Index");
             }
-
             return View(cATEGORIES);
         }
 
-        // GET: Categories/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
