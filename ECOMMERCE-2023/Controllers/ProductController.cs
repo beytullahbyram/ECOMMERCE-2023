@@ -5,21 +5,43 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using ECOMMERCE_2023.Models;
+using Newtonsoft.Json;
 
 namespace ECOMMERCE_2023.Controllers
 {
     public class ProductController : Controller
     {
         private ECommerceEntities db = new ECommerceEntities();
-
+        HttpClient httpClient = new HttpClient();
+        public Task<HttpResponseMessage> Response;//değer döndüren asenkron operasyon == asenkron
+        public HttpResponseMessage ResponseResult;
         // GET: Product
         public ActionResult Index()
         {
-            var pRODUCT = db.PRODUCT.Include(p => p.CATEGORIES);
-            return View(pRODUCT.ToList());
+            List<PRODUCT> produtcs = null;
+            httpClient.BaseAddress = new Uri("https://localhost:44317/api/");
+            Response=httpClient.GetAsync("Products");
+            Response.Wait();
+            ResponseResult=Response.Result; 
+            if(ResponseResult.IsSuccessStatusCode)
+            {
+                var readstringdata= ResponseResult.Content.ReadAsStringAsync();//json sonucu string olarak okuyoruz
+                readstringdata.Wait();
+                produtcs=JsonConvert.DeserializeObject<List<PRODUCT>>(readstringdata.Result);//json formatindaki verileri okumak için deserilaze işlemi yaptık yani parçalayıp verilere ulaşmış olduk
+            }
+
+            for (int i = 0; i < produtcs.Count; i++)
+            {
+                produtcs[i].CATEGORIES=db.CATEGORIES.Find(produtcs[i].Category_id);
+            }
+
+            return View(produtcs);
+
         }
 
         // GET: Product/Details/5

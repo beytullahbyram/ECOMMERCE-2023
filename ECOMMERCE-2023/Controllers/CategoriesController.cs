@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using ECOMMERCE_2023.Models;
@@ -14,18 +15,21 @@ namespace ECOMMERCE_2023.Controllers
 {
     public class CategoriesController : Controller
     {
-        private ECommerceEntities db = new ECommerceEntities();
+        //private ECommerceEntities db = new ECommerceEntities();
         HttpClient httpClient = new HttpClient();//GET POST PUT DELETE işlemlerini yapmamızı sağlar
+        public Task<HttpResponseMessage> Response;//değer döndüren asenkron operasyon == asenkron
+        public HttpResponseMessage ResponseResult;
         public ActionResult Index()
         {
+            
             List<CATEGORIES> categories = new List<CATEGORIES>();
             httpClient.BaseAddress = new Uri("https://localhost:44317/api/");//istek göndereceğimiz api adresi
-            var response=httpClient.GetAsync("Category");//apinin gideği controller veya adres
-            response.Wait();//cevap gelene kadar bekleniyor
-            var result=response.Result; //clienttan gelen sonucu değişkene attık
-            if(result.IsSuccessStatusCode)
+            Response=httpClient.GetAsync("Category");//apinin gideği controller veya adres
+            Response.Wait();//cevap gelene kadar bekleniyor
+            var ResponseResult=Response.Result; //clienttan gelen sonucu değişkene attık
+            if(ResponseResult.IsSuccessStatusCode)
             {
-                var readstringdata= result.Content.ReadAsStringAsync();//json sonucu string olarak okuyoruz
+                var readstringdata= ResponseResult.Content.ReadAsStringAsync();//json sonucu string olarak okuyoruz
                 readstringdata.Wait();
                 categories=JsonConvert.DeserializeObject<List<CATEGORIES>>(readstringdata.Result);//json formatindaki verileri okumak için deserilaze işlemi yaptık yani parçalayıp verilere ulaşmış olduk
             }
@@ -38,12 +42,30 @@ namespace ECOMMERCE_2023.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CATEGORIES cATEGORIES = db.CATEGORIES.Find(id);
+            CATEGORIES cATEGORIES=CategoryFind(id); 
+
+
             if (cATEGORIES == null)
             {
                 return HttpNotFound();
             }
             return View(cATEGORIES);
+        }
+        private CATEGORIES CategoryFind(int? id)
+        {
+            CATEGORIES cATEGORIES=null;
+
+            httpClient.BaseAddress=new Uri("https://localhost:44317/api/");
+            var response=httpClient.GetAsync("Category/"+id);
+            response.Wait();
+            var result=response.Result;
+            if(result.IsSuccessStatusCode){ 
+            
+                var data=result.Content.ReadAsAsync<CATEGORIES>();
+                data.Wait();
+                cATEGORIES=data.Result;
+            }
+            return cATEGORIES;
         }
 
         public ActionResult Create()
@@ -64,7 +86,7 @@ namespace ECOMMERCE_2023.Controllers
                 //apiye json olarak bir post isteği göndeririz ve gelen cevabı değişkene alırız
                 var response = HttpClientExtensions.PostAsJsonAsync<CATEGORIES>(httpClient,"Category",cATEGORIES);
                 response.Wait();
-                var result = response.Result;
+                var result = response.Result;//gelen cevap status code şeklindedir
                 if(result.IsSuccessStatusCode)
                     return RedirectToAction("Index");
             }
@@ -77,7 +99,7 @@ namespace ECOMMERCE_2023.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CATEGORIES cATEGORIES = db.CATEGORIES.Find(id);
+            CATEGORIES cATEGORIES = CategoryFind(id);
             if (cATEGORIES == null)
             {
                 return HttpNotFound();
@@ -92,9 +114,15 @@ namespace ECOMMERCE_2023.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(cATEGORIES).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                httpClient.BaseAddress=new Uri("https://localhost:44317/api/");
+                var response=httpClient.PutAsJsonAsync<CATEGORIES>("Category",cATEGORIES);
+                response.Wait();
+                
+                var ResponseResult=response.Result;
+                if (ResponseResult.IsSuccessStatusCode)
+                    return RedirectToAction("Index");   
+
+
             }
             return View(cATEGORIES);
         }
@@ -106,7 +134,8 @@ namespace ECOMMERCE_2023.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CATEGORIES cATEGORIES = db.CATEGORIES.Find(id);
+            CATEGORIES cATEGORIES = CategoryFind(id);
+
             if (cATEGORIES == null)
             {
                 return HttpNotFound();
@@ -118,19 +147,16 @@ namespace ECOMMERCE_2023.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            CATEGORIES categories = db.CATEGORIES.Find(id);
-            db.CATEGORIES.Remove(categories);
-            db.SaveChanges();
+            httpClient.BaseAddress=new Uri("https://localhost:44317/api/");
+            var response=httpClient.DeleteAsync("Category/"+id);
+            response.Wait();
+            var result=response.Result;
+            if (result.IsSuccessStatusCode)
+                return RedirectToAction("Index");   
+
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+
     }
 }
